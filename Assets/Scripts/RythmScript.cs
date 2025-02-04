@@ -54,20 +54,52 @@ public class RythmScript : MonoBehaviour
         [SerializeField] private bool[] sequence;
         [SerializeField] private bool isListening = false;
 
+        private int firstSequenceIndex = 0;
+        private int lastSequenceIndex = 3;
+
         private int kick = 0;
         private int lastInterval = -1;
+        private int bar = 1;
 
-        private static bool[,] sequences = new bool[10,8] {
+        [SerializeField]
+        private bool[,] sequences = new bool[30,8] {
+            //1
+            {false,false,false,false,true,false,false,false},
+            {false,false,false,false,false,false,true,false},
             {true,false,false,false,false,false,false,false},
+            {false,false,true,false,false,false,false,false},
+
+            //2
+            {false,false,true,false,true,false,false,false},
+            {false,false,false,false,true,false,true,false},
+            {false,false,false,true,false,false,true,false},
+            {false,false,true,false,false,true,false,false},
+            {false,false,false,true,false,true,false,false},
+            {false,false,false,false,true,false,false,true},
             {true,false,false,false,true,false,false,false},
+            {true,false,true,false,false,false,false,false},
+            {true,true,false,false,false,false,false,false},
+            {true,false,false,false,false,false,true,false},
+
+            //3
+            {false,false,true,false,true,false,true,false},
+            {false,true,false,true,false,false,true,false},
+            {false,false,true,false,false,true,true,false},
+            {false,false,true,false,false,false,true,true},
             {true,false,true,false,true,false,false,false},
             {true,false,false,false,true,false,true,false},
-            {true,false,true,false,true,false,true,false},
             {true,false,false,true,false,false,true,false},
-            {true,true,false,true,false,false,true,false},
             {true,false,true,false,false,true,false,false},
             {true,false,false,true,false,true,false,false},
             {true,false,false,false,true,false,false,true},
+
+            //4
+            {true,false,true,false,true,false,true,false},
+            {true,true,false,true,false,false,true,false},
+            {true,false,true,false,false,true,true,false},
+            {true,false,false,false,true,true,false,true},
+            {false,false,false,false,true,true,true,true},
+            {false,true,true,false,false,true,true,false},
         };
 
         public float kickTime = 0f;
@@ -86,6 +118,7 @@ public class RythmScript : MonoBehaviour
         {
             if (Mathf.FloorToInt(interval + delay) != lastInterval)
             {
+                //Routine rythmique (Pour un pattern, joue puis écoute la mesure)
                 lastInterval = Mathf.FloorToInt(interval);
                 if ((sequence[kick] && isPattern) || !isPattern)
                 {
@@ -105,17 +138,42 @@ public class RythmScript : MonoBehaviour
                     kick++;
                 }else
                 {
+                    //Changement de mesure
                     kick = 0;
                     if (isPattern)
                     {
                         if (isListening)
                         {
 
-                            int randomRow = Random.Range(0, sequences.GetLength(0));
+                            //Tirage de la séquence à jouer
+                            int randomRow = Random.Range(firstSequenceIndex, lastSequenceIndex);
 
                             for (int i = 0; i < sequence.Length; i++)
                             {
                                 sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
+                            }
+
+                            //Augmentation de la difficulté en fonction du nombre de mesures passées
+                            bar++;
+                            if (bar == 8)
+                            {
+                                lastSequenceIndex = 13;
+                            }else if (bar == 24)
+                            {
+                                firstSequenceIndex = 4;
+                                lastSequenceIndex = 23;
+                            }else if (bar == 48)
+                            {
+                                firstSequenceIndex = 14;
+                                lastSequenceIndex = sequences.Length;
+                            }else if (bar == 64)
+                            {
+                                firstSequenceIndex = 21;
+                            } else if (bar == 88)
+                            {
+                                //WIN
+                                GameObject.Find("ScoreManager").GetComponent<ScoreScript>().Win();
+
                             }
                         }
                         isListening = !isListening;

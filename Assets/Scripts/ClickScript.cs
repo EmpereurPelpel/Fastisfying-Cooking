@@ -39,19 +39,16 @@ public class ClickScript : MonoBehaviour
             {
                 if (kickClickDif < scoreTimeMargin)
                 {
-                    Debug.Log("OK");
                     scoreScript.GoodClick();
                 }
                 else
                 {
-                    Debug.Log("NUL");
                     scoreScript.BadClick();
                 }
                 lastClick = 0;
                 newKickToCheck = false;
             } else if (kickTime + detectionTimeMargin < Time.time)
             {
-                Debug.Log("MISS");
                 scoreScript.MissClick();
                 newKickToCheck = false;
             }

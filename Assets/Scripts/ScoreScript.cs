@@ -13,6 +13,7 @@ public class ScoreScript : MonoBehaviour
     [SerializeField] private LifeBarBehaviour lifeBar;
 
     [SerializeField] private GameObject deathPanel;
+    [SerializeField] private GameObject winPanel;
 
     [SerializeField] private AudioSource music;
     private int scoreCount = 0;
@@ -69,7 +70,6 @@ public class ScoreScript : MonoBehaviour
 
     public void Death()
     {
-        Debug.Log("mort");
         music.Stop();
         deathPanel.SetActive(true);
 
@@ -78,6 +78,12 @@ public class ScoreScript : MonoBehaviour
     public void PlayAgain()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void Win()
+    {
+        music.Stop();
+        winPanel.SetActive(true);
     }
 
 
