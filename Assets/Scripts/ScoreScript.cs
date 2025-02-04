@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreScript : MonoBehaviour
@@ -9,6 +10,11 @@ public class ScoreScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI score;
     [SerializeField] private TextMeshProUGUI mult;
     [SerializeField] private TextMeshProUGUI textFeedback;
+    [SerializeField] private LifeBarBehaviour lifeBar;
+
+    [SerializeField] private GameObject deathPanel;
+
+    [SerializeField] private AudioSource music;
     private int scoreCount = 0;
     private int multCount = 1;
     private int goodStreak = 0;
@@ -39,6 +45,7 @@ public class ScoreScript : MonoBehaviour
         }
         scoreCount += scoreStep * multCount;
         score.text = "SCORE : " + scoreCount.ToString();
+        lifeBar.HealDamage();
     }
 
     public void BadClick()
@@ -47,6 +54,7 @@ public class ScoreScript : MonoBehaviour
         goodStreak = 0;
         multCount = 1;
         mult.text = "X" + multCount.ToString();
+        lifeBar.TakeDamage();
     }
 
     public void MissClick() 
@@ -55,7 +63,21 @@ public class ScoreScript : MonoBehaviour
         goodStreak = 0;
         multCount = 1;
         mult.text = "X" + multCount.ToString();
+        lifeBar.TakeDamage();
 
+    }
+
+    public void Death()
+    {
+        Debug.Log("mort");
+        music.Stop();
+        deathPanel.SetActive(true);
+
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 
 

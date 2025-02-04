@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using static RythmScript;
 
 public class RythmScript : MonoBehaviour
@@ -9,8 +10,7 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
-    [SerializeField] private bool playMusic = false;
-
+    [SerializeField] private GameObject playButton;
     private float tmpTime;
 
     // Start is called before the first frame update
@@ -22,10 +22,7 @@ public class RythmScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playMusic && !musicSource.isPlaying)
-        {
-            musicSource.Play();
-        }
+
         if (musicSource.isPlaying)
         {
             foreach (Intervals interval in intervals)
@@ -38,7 +35,8 @@ public class RythmScript : MonoBehaviour
 
     public void playMusicNow()
     {
-        playMusic = true;
+        playButton.SetActive(false);
+        musicSource.Play();
     }
 
     public float getKickTime()
