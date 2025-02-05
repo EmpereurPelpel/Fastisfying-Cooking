@@ -28,7 +28,7 @@ public class MHFixedCutter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.FirstObjectIsSpawned())
+        if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.IsCutAllowed())
         {
             MakeCut(cutPoints[currentCutIndex]);
             currentCutIndex++;
@@ -67,24 +67,10 @@ public class MHFixedCutter : MonoBehaviour
     private void MakeCut(Vector3 cutPoint)
     {
         mhCutter.Cut(targetObject, cutPoint, cutDirection);
+        spawner.ContainSlicedParts();
     }
-    public void DestroySlicedParts()
-    {
-        GameObject[] slicedParts = GameObject.FindGameObjectsWithTag("Sliced");
 
-        if (slicedParts.Length == 0)
-        {
-            Debug.Log("Aucun objet 'Sliced' trouvé !");
-        }
-        else
-        {
-            foreach (GameObject part in slicedParts)
-            {
-                Debug.Log("Suppression de : " + part.name);
-                Destroy(part);
-            }
-        }
-    }
+    
 
     public int CurrentCutIndex => currentCutIndex;
     public int NumberOfCuts => numberOfCuts;

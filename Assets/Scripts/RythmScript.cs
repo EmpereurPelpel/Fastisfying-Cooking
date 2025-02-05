@@ -168,13 +168,14 @@ public class RythmScript : MonoBehaviour
                 sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
             }
             // Deleting old food and creating a new one for the next sequence
-            spawner.ResetObject();
+            
             int numberOfCuts = 0;
             foreach (bool b in sequence)
             {
                 if (b) numberOfCuts++;
             }
             spawner.SpawnNewObject(numberOfCuts);
+            spawner.ResetObject();
         }
 
         private void DifficultyManager()
