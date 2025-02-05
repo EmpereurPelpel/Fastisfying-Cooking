@@ -11,7 +11,7 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
     [SerializeField] private GameObject playButton;
-    private float tmpTime;
+
 
     // Start is called before the first frame update
     void Start()
@@ -150,6 +150,7 @@ public class RythmScript : MonoBehaviour
 
                             for (int i = 0; i < sequence.Length; i++)
                             {
+                                Debug.Log("Row : " + randomRow);
                                 sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
                             }
 
@@ -165,15 +166,20 @@ public class RythmScript : MonoBehaviour
                             }else if (bar == 48)
                             {
                                 firstSequenceIndex = 14;
-                                lastSequenceIndex = sequences.Length;
+                                lastSequenceIndex = sequences.GetLength(0);
+                                Debug.Log("last index : " + lastSequenceIndex);
                             }else if (bar == 64)
                             {
                                 firstSequenceIndex = 21;
                             } else if (bar == 88)
                             {
+                                firstSequenceIndex = 0;
+                                lastSequenceIndex = 1;
+
+                            } else if (bar == 90)
+                            {
                                 //WIN
                                 GameObject.Find("ScoreManager").GetComponent<ScoreScript>().Win();
-
                             }
                         }
                         isListening = !isListening;

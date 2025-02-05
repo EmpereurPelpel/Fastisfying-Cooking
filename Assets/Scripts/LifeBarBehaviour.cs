@@ -11,8 +11,8 @@ public class LifeBarBehaviour : MonoBehaviour
     private float maxFillAmount = 100;
 
     private float lifePassiveDmg = 1.5f;
-    private float lifeActiveDmg = 10;
-    private float lifeHealAmount = 2.5f;
+    private float lifeActiveDmg = 20;
+    private float lifeHealAmount = 3f;
 
     private float barWidth;
 
