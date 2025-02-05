@@ -11,6 +11,7 @@ public class MHFixedCutter : MonoBehaviour
     [SerializeField] private int numberOfCuts;
     [SerializeField] private Vector3 cutDirection = Vector3.right;
     [SerializeField] private float objectLength;
+    [SerializeField] ObjectSpawner spawner;
     #endregion
     #region Variables
     private int currentCutIndex = 0;
@@ -19,22 +20,24 @@ public class MHFixedCutter : MonoBehaviour
 
     private void Start()
     {
+        /*
         objectLength = GetObjectLengthX(targetObject);
         Debug.Log(objectLength);
-        cutPoints = DetermineCutPoints(objectLength, numberOfCuts);
+        cutPoints = DetermineCutPoints(objectLength, numberOfCuts);*/
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts))
+        if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.FirstObjectIsSpawned())
         {
-            Debug.Log(cutPoints[currentCutIndex]);
             MakeCut(cutPoints[currentCutIndex]);
             currentCutIndex++;
         }
     }
-    public void SetTargetObject(GameObject newTarget)
+
+    public void SetTargetObject(GameObject newTarget, int numberOfBeats)
     {
+        numberOfCuts = numberOfBeats;
         targetObject = newTarget;
         currentCutIndex = 0;
         objectLength = GetObjectLengthX(targetObject);

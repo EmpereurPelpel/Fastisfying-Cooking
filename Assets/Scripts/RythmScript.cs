@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +11,7 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
     [SerializeField] private GameObject playButton;
+    
 
 
     // Start is called before the first frame update
@@ -53,6 +54,7 @@ public class RythmScript : MonoBehaviour
         [SerializeField] private bool isPattern;
         [SerializeField] private bool[] sequence;
         [SerializeField] private bool isListening = false;
+        [SerializeField] private ObjectSpawner spawner;
 
         private int firstSequenceIndex = 0;
         private int lastSequenceIndex = 3;
@@ -144,43 +146,9 @@ public class RythmScript : MonoBehaviour
                     {
                         if (isListening)
                         {
+                            InitiateSequence();
 
-                            //Tirage de la séquence à jouer
-                            int randomRow = Random.Range(firstSequenceIndex, lastSequenceIndex);
-
-                            for (int i = 0; i < sequence.Length; i++)
-                            {
-                                Debug.Log("Row : " + randomRow);
-                                sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
-                            }
-
-                            //Augmentation de la difficulté en fonction du nombre de mesures passées
-                            bar++;
-                            if (bar == 8)
-                            {
-                                lastSequenceIndex = 13;
-                            }else if (bar == 24)
-                            {
-                                firstSequenceIndex = 4;
-                                lastSequenceIndex = 23;
-                            }else if (bar == 48)
-                            {
-                                firstSequenceIndex = 14;
-                                lastSequenceIndex = sequences.GetLength(0);
-                                Debug.Log("last index : " + lastSequenceIndex);
-                            }else if (bar == 64)
-                            {
-                                firstSequenceIndex = 21;
-                            } else if (bar == 88)
-                            {
-                                firstSequenceIndex = 0;
-                                lastSequenceIndex = 1;
-
-                            } else if (bar == 90)
-                            {
-                                //WIN
-                                GameObject.Find("ScoreManager").GetComponent<ScoreScript>().Win();
-                            }
+                            DifficultyManager();
                         }
                         isListening = !isListening;
                     }
@@ -188,6 +156,61 @@ public class RythmScript : MonoBehaviour
                 
             }
 
+        }
+        private void InitiateSequence()
+        {
+            //Tirage de la séquence à jouer
+            int randomRow = UnityEngine.Random.Range(firstSequenceIndex, lastSequenceIndex);
+
+            for (int i = 0; i < sequence.Length; i++)
+            {
+                Debug.Log("Row : " + randomRow);
+                sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
+            }
+            // Deleting old food and creating a new one for the next sequence
+            spawner.ResetObject();
+            int numberOfCuts = 0;
+            foreach (bool b in sequence)
+            {
+                if (b) numberOfCuts++;
+            }
+            spawner.SpawnNewObject(numberOfCuts);
+        }
+
+        private void DifficultyManager()
+        {
+            //Augmentation de la difficulté en fonction du nombre de mesures passées
+            bar++;
+            if (bar == 8)
+            {
+                lastSequenceIndex = 13;
+            }
+            else if (bar == 24)
+            {
+                firstSequenceIndex = 4;
+                lastSequenceIndex = 23;
+            }
+            else if (bar == 48)
+            {
+                firstSequenceIndex = 14;
+                lastSequenceIndex = sequences.GetLength(0);
+                Debug.Log("last index : " + lastSequenceIndex);
+            }
+            else if (bar == 64)
+            {
+                firstSequenceIndex = 21;
+            }
+            else if (bar == 88)
+            {
+                firstSequenceIndex = 0;
+                lastSequenceIndex = 1;
+
+            }
+            else if (bar == 90)
+            {
+                //WIN
+                GameObject.Find("ScoreManager").GetComponent<ScoreScript>().Win();
+            }
         }
         
     }
