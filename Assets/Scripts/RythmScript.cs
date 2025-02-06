@@ -17,7 +17,6 @@ public class RythmScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -38,6 +37,11 @@ public class RythmScript : MonoBehaviour
     {
         playButton.SetActive(false);
         musicSource.Play();
+    }
+
+    public float GetIntervalLength()
+    {
+        return intervals[1].GetIntervalLength(bpm);
     }
 
     public float getKickTime()

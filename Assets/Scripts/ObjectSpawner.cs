@@ -1,17 +1,23 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using static RythmScript;
 
 public class ObjectSpawner : MonoBehaviour
 {
     [Header("Prefab et Cutter")]
-    [SerializeField] private GameObject objectPrefab; // Prefab à instancier
+    [SerializeField] private GameObject[] objectPrefabs; // Prefab à instancier
     [SerializeField] private MHFixedCutter cutterScript; // Référence au script de découpe (attaché à "Mesh Slicer")
+    [SerializeField] private RythmScript rythmScript;
 
     private GameObject currentObject; // Stocke l’objet instancié
     private GameObject currentContainer;
     private GameObject lastObject;
     private GameObject lastContainer;
+
+    private Vector3 startPos = new Vector3(-6, -0.25f, -1.5f);
+    private Vector3 medPos = new Vector3(0, -0.25f, -1.5f);
+    private Vector3 endPos = new Vector3(6, -0.25f, -1.5f);
 
     private bool firstObjectIsSpawned = false;
     private bool objectIsMoving = false;
@@ -45,18 +51,19 @@ public class ObjectSpawner : MonoBehaviour
         }
         firstObjectIsSpawned = true;
         currentContainer = new GameObject("FoodAndSlicesContainer");
-        currentContainer.transform.position = new Vector3(-6,0,0);
-        currentObject = Instantiate(objectPrefab, new Vector3(-6,0,0), Quaternion.identity); // Instancie un nouvel objet
+        currentContainer.transform.position = startPos;
+        GameObject randomPrefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
+        currentObject = Instantiate(randomPrefab, startPos, Quaternion.identity); // Instancie un nouvel objet
         currentObject.transform.parent = currentContainer.transform;
         cutterScript.SetTargetObject(currentObject,numberOfBeats); // Associe l’objet instancié au cutter
-        StartCoroutine(MoveNewFood(currentContainer, new Vector3(0, 0, 0), 0.5f));
+        StartCoroutine(MoveNewFood(currentContainer, medPos, rythmScript.GetIntervalLength() ));
     }
 
     public void ResetObject()
     {
         if (lastObject != null)
         {
-            StartCoroutine(MoveAndDestroy(lastContainer, new Vector3(6, 0, 0), 0.5f));
+            StartCoroutine(MoveAndDestroy(lastContainer, endPos, rythmScript.GetIntervalLength()));
         }
     }
 
@@ -67,7 +74,6 @@ public class ObjectSpawner : MonoBehaviour
         objectIsMoving = true;
         while (elapsedTime < duration)
         {
-            Debug.Log("CACAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null; // Attendre la prochaine frame
