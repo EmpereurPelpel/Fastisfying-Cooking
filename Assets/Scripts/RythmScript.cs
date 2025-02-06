@@ -10,7 +10,7 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
-    [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject startPanel;
 
     [SerializeField] private PauseScript pauseScript;
     
@@ -30,7 +30,7 @@ public class RythmScript : MonoBehaviour
 
     public void playMusicNow()
     {
-        playButton.SetActive(false);
+        startPanel.SetActive(false);
         musicSource.Play();
     }
 
