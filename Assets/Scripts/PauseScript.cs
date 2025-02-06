@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+//Classe gérant le menu pause
 public class PauseScript : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
@@ -24,13 +25,7 @@ public class PauseScript : MonoBehaviour
         LoadVolume();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
+    //Active ou désactive le menu pause quand elle est appelée
     public void PauseClicked()
     {
         pauseGeneral.SetActive(true);
