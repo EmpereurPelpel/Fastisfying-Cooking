@@ -7,6 +7,7 @@ public class MHFixedCutter : MonoBehaviour
 {
     #region Configuration
     [SerializeField] private MHCutter mhCutter;
+    [SerializeField] private KnifeController knifeController;
     [SerializeField] private GameObject targetObject;
     [SerializeField] private int numberOfCuts;
     [SerializeField] private Vector3 cutDirection = Vector3.right;
@@ -73,6 +74,11 @@ public class MHFixedCutter : MonoBehaviour
     {
         mhCutter.Cut(targetObject, cutPoint, cutDirection);
         spawner.ContainSlicedParts();
+        if (knifeController != null)
+        {
+            Debug.Log("cacaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            StartCoroutine(knifeController.StartCutAnimation(cutPoint));
+        }
     }
 
     
