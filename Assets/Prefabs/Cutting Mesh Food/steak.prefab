@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4069751677760868185}
   - component: {fileID: 1479888385622723891}
   - component: {fileID: 3575833042752192025}
+  - component: {fileID: -7290271676180806495}
   m_Layer: 0
   m_Name: steak
   m_TagString: Untagged
@@ -106,3 +107,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1675931065404318426, guid: 9593998c283019d478c6be13c21102aa, type: 3}
+--- !u!114 &-7290271676180806495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310042936511685627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cb609bfc9e4e9c92d7e8a7040967ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vertices: []
+  _normals: []
+  _uvs: []
+  _listOfSubMeshIndices: []
