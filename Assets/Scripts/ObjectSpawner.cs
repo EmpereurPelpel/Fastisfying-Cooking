@@ -1,51 +1,118 @@
 using UnityEngine;
+using System.Collections;
+using TMPro;
+using static RythmScript;
 
 public class ObjectSpawner : MonoBehaviour
 {
     [Header("Prefab et Cutter")]
-    [SerializeField] private GameObject objectPrefab; // Prefab à instancier
+    [SerializeField] private GameObject[] objectPrefabs; // Prefab à instancier
     [SerializeField] private MHFixedCutter cutterScript; // Référence au script de découpe (attaché à "Mesh Slicer")
+    [SerializeField] private RythmScript rythmScript;
 
     private GameObject currentObject; // Stocke l’objet instancié
-    private bool isObjectDestroyed = false; // Permet de savoir si l'objet a été supprimé
+    private GameObject currentContainer;
+    private GameObject lastObject;
+    private GameObject lastContainer;
+
+    private Vector3 startPos = new Vector3(-6, -0.25f, -1.5f);
+    private Vector3 medPos = new Vector3(0, -0.25f, -1.5f);
+    private Vector3 endPos = new Vector3(6, -0.25f, -1.5f);
+
+    private bool firstObjectIsSpawned = false;
+    private bool objectIsMoving = false;
 
     private void Start()
     {
-        SpawnNewObject(); // Instancier le premier objet
+
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+       
+    }
+    public bool IsCutAllowed()
+    {
+        if (firstObjectIsSpawned && !objectIsMoving)
         {
-            if (cutterScript != null && IsCuttingComplete()) // Si toutes les coupes sont faites
-            {
-                if (!isObjectDestroyed)
-                {
-                    // Premier clic après la dernière coupe -> Supprime l'objet
-                    ResetObject();
-                    isObjectDestroyed = true; // Marque l’objet comme supprimé
-                }
-                else
-                {
-                    // Deuxième clic -> Crée un nouvel objet prêt à être coupé
-                    SpawnNewObject();
-                    isObjectDestroyed = false; // Réinitialise l'état
-                }
-            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void SpawnNewObject(int numberOfBeats)
+    {
+        if (firstObjectIsSpawned)
+        {
+            lastObject = currentObject;
+            lastContainer = currentContainer;
+        }
+        firstObjectIsSpawned = true;
+        currentContainer = new GameObject("FoodAndSlicesContainer");
+        currentContainer.transform.position = startPos;
+        GameObject randomPrefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
+        currentObject = Instantiate(randomPrefab, startPos, Quaternion.identity); // Instancie un nouvel objet
+        currentObject.transform.parent = currentContainer.transform;
+        cutterScript.SetTargetObject(currentObject,numberOfBeats); // Associe l’objet instancié au cutter
+        StartCoroutine(MoveNewFood(currentContainer, medPos, rythmScript.GetIntervalLength() ));
+    }
+
+    public void ResetObject()
+    {
+        if (lastObject != null)
+        {
+            StartCoroutine(MoveAndDestroy(lastContainer, endPos, rythmScript.GetIntervalLength()));
         }
     }
 
-    private void SpawnNewObject()
+    private IEnumerator MoveNewFood(GameObject obj, Vector3 targetPosition, float duration)
     {
-        currentObject = Instantiate(objectPrefab, Vector3.zero, Quaternion.identity); // Instancie un nouvel objet
-        cutterScript.SetTargetObject(currentObject); // Associe l’objet instancié au cutter
+        Vector3 startPosition = obj.transform.position;
+        float elapsedTime = 0f;
+        objectIsMoving = true;
+        while (elapsedTime < duration)
+        {
+            obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Attendre la prochaine frame
+        }
+        objectIsMoving = false;
+        obj.transform.position = targetPosition;
     }
 
-    private void ResetObject()
+    private IEnumerator MoveAndDestroy(GameObject obj, Vector3 targetPosition, float duration)
     {
-        cutterScript.DestroySlicedParts();
-        Destroy(currentObject); // Supprime l’objet coupé
+        Vector3 startPosition = obj.transform.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Attendre la prochaine frame
+        }
+
+        obj.transform.position = targetPosition; // S'assurer qu'il atteint bien la position cible
+        Destroy(lastContainer); // Supprimer l’objet
+    }
+
+    public void ContainSlicedParts()
+    {
+        GameObject[] slicedParts = GameObject.FindGameObjectsWithTag("Sliced");
+        if (slicedParts.Length == 0)
+        {
+            Debug.Log("Aucun objet 'Sliced' trouvé !");
+        }
+        else
+        {
+            foreach (GameObject part in slicedParts)
+            {
+                Debug.Log(part.name);
+                part.transform.parent=currentContainer.transform;
+            }
+        }
     }
 
     private bool IsCuttingComplete()
