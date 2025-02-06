@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Gère le score
 public class ScoreScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI score;
@@ -21,18 +22,6 @@ public class ScoreScript : MonoBehaviour
     private int goodStreak = 0;
     private int multStep = 4;
     private int scoreStep = 100;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void GoodClick()
     {
@@ -41,7 +30,7 @@ public class ScoreScript : MonoBehaviour
         if (goodStreak == multStep*multCount)
         {
             multCount *=2;
-            mult.text = "X" + multCount.ToString();
+            mult.text = "*" + multCount.ToString();
 
         }
         scoreCount += scoreStep * multCount;
@@ -54,7 +43,7 @@ public class ScoreScript : MonoBehaviour
         textFeedback.text = "BAD";
         goodStreak = 0;
         multCount = 1;
-        mult.text = "X" + multCount.ToString();
+        mult.text = "*" + multCount.ToString();
         lifeBar.TakeDamage();
     }
 
@@ -63,7 +52,7 @@ public class ScoreScript : MonoBehaviour
         textFeedback.text = "MISS";
         goodStreak = 0;
         multCount = 1;
-        mult.text = "X" + multCount.ToString();
+        mult.text = "*" + multCount.ToString();
         lifeBar.TakeDamage();
 
     }

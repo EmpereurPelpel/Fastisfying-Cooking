@@ -11,17 +11,12 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
-    [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject startPanel;
+
     [SerializeField] private PauseScript pauseScript;
-    #endregion
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
+    
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
         if (musicSource.isPlaying && !pauseScript.isPaused)
@@ -35,7 +30,7 @@ public class RythmScript : MonoBehaviour
     }
     public void playMusicNow()
     {
-        playButton.SetActive(false);
+        startPanel.SetActive(false);
         musicSource.Play();
     }
 
@@ -48,6 +43,7 @@ public class RythmScript : MonoBehaviour
     {
         return intervals[1].kickTime;
     }
+
 
     public bool GetIsListening()
     {
@@ -82,6 +78,7 @@ public class RythmScript : MonoBehaviour
         private bool kickMarked = false;
         private bool hasWaited = false;
 
+        //Tableau de s√©quences rythmiques
         [SerializeField]
         private bool[,] sequences = new bool[30,8] {
             //1
@@ -135,14 +132,18 @@ public class RythmScript : MonoBehaviour
             return isListening;
         }
 
+        /// <summary>
+        /// Marque les kicks sur le tempo
+        /// </summary>
+        /// <param name="interval"></param>
         public void CheckForNewInterval(float interval)
         {
             if (Mathf.FloorToInt(interval + delay) != lastInterval)
             {
-                //Routine rythmique (Pour un pattern, joue puis Ècoute la mesure)
+                //Routine rythmique (Pour un pattern, joue puis √©coute la mesure)
                 lastInterval = Mathf.FloorToInt(interval);
 
-                //si c'est un pattern et que soit l'intervalle est plus grande que la prÈcÈdente 
+                //si c'est un pattern et que son interval est plus grand que le pr√©c√©dent, on marque un kick
                 if (isPattern && kick!= Mathf.FloorToInt(lastInterval / 2)%(int)steps)
                 {
                     kick = (int)Mathf.Floor(lastInterval/2) % (int)steps;
@@ -190,15 +191,18 @@ public class RythmScript : MonoBehaviour
             }
 
         }
+        /// <summary>
+        /// Initialise la prochaine s√©quence rythmique en la tirant au sort dans le tableau de s√©quences
+        /// </summary>
         private void InitiateSequence()
         {
-            //Tirage de la sÈquence ‡ jouer
+            //Tirage de la s√©quence √† jouer
             int randomRow = UnityEngine.Random.Range(firstSequenceIndex, lastSequenceIndex);
 
             for (int i = 0; i < sequence.Length; i++)
             {
                 Debug.Log("Row : " + randomRow);
-                sequence[i] = sequences[randomRow, i]; // Copier chaque ÈlÈment de la ligne
+                sequence[i] = sequences[randomRow, i]; // Copier chaque √©l√©ment de la ligne
             }
             // Deleting old food and creating a new one for the next sequence
             
@@ -211,9 +215,12 @@ public class RythmScript : MonoBehaviour
             spawner.ResetObject();
         }
 
+        /// <summary>
+        /// Augmente la difficult√© en fonction du nombre de mesures jou√©es
+        /// </summary>
         private void DifficultyManager()
         {
-            //Augmentation de la difficultÈ en fonction du nombre de mesures passÈes
+            //Augmentation de la difficult√© en fonction du nombre de mesures pass√©es
             bar++;
             if (bar == 8)
             {

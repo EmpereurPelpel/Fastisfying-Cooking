@@ -18,21 +18,16 @@ public class ClickScript : MonoBehaviour
 
     [SerializeField] private ScoreScript scoreScript;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
+        //active le menu pause
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseScript.PauseClicked();
         }
 
+        //coup de couteau et vérification de précision
         if (!pauseScript.isPaused)
         {
             if (Input.GetMouseButtonDown(0))
