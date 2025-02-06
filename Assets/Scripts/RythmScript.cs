@@ -10,19 +10,12 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
-    [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject startPanel;
 
     [SerializeField] private PauseScript pauseScript;
     
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
         if (musicSource.isPlaying && !pauseScript.isPaused)
@@ -37,7 +30,7 @@ public class RythmScript : MonoBehaviour
 
     public void playMusicNow()
     {
-        playButton.SetActive(false);
+        startPanel.SetActive(false);
         musicSource.Play();
     }
 
@@ -51,6 +44,9 @@ public class RythmScript : MonoBehaviour
         return intervals[1].kickTime;
     }
 
+    /// <summary>
+    /// Ici nous initialisons une class permettant de programmer des rythmes sur la musique.
+    /// </summary>
     [System.Serializable]
     public class Intervals
     {
@@ -72,6 +68,7 @@ public class RythmScript : MonoBehaviour
         private bool kickMarked = false;
         private bool hasWaited = false;
 
+        //Tableau de séquences rythmiques
         [SerializeField]
         private bool[,] sequences = new bool[30,8] {
             //1
@@ -122,6 +119,10 @@ public class RythmScript : MonoBehaviour
         }
 
 
+        /// <summary>
+        /// Marque les kicks sur le tempo
+        /// </summary>
+        /// <param name="interval"></param>
         public void CheckForNewInterval(float interval)
         {
             if (Mathf.FloorToInt(interval + delay) != lastInterval)
@@ -129,7 +130,7 @@ public class RythmScript : MonoBehaviour
                 //Routine rythmique (Pour un pattern, joue puis écoute la mesure)
                 lastInterval = Mathf.FloorToInt(interval);
 
-                //si c'est un pattern et que soit l'intervalle est plus grande que la précédente 
+                //si c'est un pattern et que son interval est plus grand que le précédent, on marque un kick
                 if (isPattern && kick!= Mathf.FloorToInt(lastInterval / 2)%(int)steps)
                 {
                     kick = (int)Mathf.Floor(lastInterval/2) % (int)steps;
@@ -177,6 +178,9 @@ public class RythmScript : MonoBehaviour
             }
 
         }
+        /// <summary>
+        /// Initialise la prochaine séquence rythmique en la tirant au sort dans le tableau de séquences
+        /// </summary>
         private void InitiateSequence()
         {
             //Tirage de la séquence à jouer
@@ -198,6 +202,9 @@ public class RythmScript : MonoBehaviour
             spawner.ResetObject();
         }
 
+        /// <summary>
+        /// Augmente la difficulté en fonction du nombre de mesures jouées
+        /// </summary>
         private void DifficultyManager()
         {
             //Augmentation de la difficulté en fonction du nombre de mesures passées

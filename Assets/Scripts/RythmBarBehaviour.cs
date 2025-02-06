@@ -4,6 +4,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static RythmScript;
 
+//Classe permettant de gérer la barre rythmique
 public class RythmBarBehaviour : MonoBehaviour
 {
 
@@ -38,7 +39,9 @@ public class RythmBarBehaviour : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Repositionne le beatWriter en début de ligne
+    /// </summary>
     public void ResetBeatWriterPos()
     {
 
@@ -55,6 +58,9 @@ public class RythmBarBehaviour : MonoBehaviour
         isListening = true;
     }
 
+    /// <summary>
+    /// Retire les beats
+    /// </summary>
     private void ResetBeats()
     {
         for (int i=0; i< beats.transform.childCount; i++)
@@ -65,6 +71,9 @@ public class RythmBarBehaviour : MonoBehaviour
         timeToReset= false;
     }
 
+    /// <summary>
+    /// Ecrit les beats
+    /// </summary>
     public void WriteBeat()
     {
         int i = 0;

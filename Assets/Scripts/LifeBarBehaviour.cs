@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//classe permettant de gérer la barre de vie
 public class LifeBarBehaviour : MonoBehaviour
 {
     [SerializeField]
