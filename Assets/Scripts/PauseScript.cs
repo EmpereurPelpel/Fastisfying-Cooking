@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
@@ -10,12 +12,16 @@ public class PauseScript : MonoBehaviour
 
     [SerializeField] private AudioSource music;
 
+    [SerializeField] AudioMixer audioMixerGroup;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] Slider fxSlider;
+
     public bool isPaused = false;
     private bool musicWasPlaying = false;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        LoadVolume();
     }
 
     // Update is called once per frame
@@ -49,16 +55,32 @@ public class PauseScript : MonoBehaviour
         pauseSound.SetActive(true);
     }
 
-    public void ApplyChanges()
+    public void GoBack()
     {
         pauseGeneral.SetActive(true);
         pauseSound.SetActive(false);
     }
 
-    public void CancelChanges()
+    public void SetMusicVolume()
     {
-        pauseGeneral.SetActive(true);
-        pauseSound.SetActive(false);
+        float volume = musicSlider.value;
+        audioMixerGroup.SetFloat("Music",Mathf.Log10(volume)*20);
+        PlayerPrefs.SetFloat("MusicVolume", volume);  
+    }
+
+    public void SetFXVolume()
+    {
+        float volume = fxSlider.value;
+        audioMixerGroup.SetFloat("FX", Mathf.Log10(volume)*20);
+        PlayerPrefs.SetFloat("FXVolume", volume);   
+    }
+
+    private void LoadVolume()
+    {
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        SetMusicVolume();
+        fxSlider.value = PlayerPrefs.GetFloat("FXVolume");
+        SetFXVolume();
     }
 
 }
