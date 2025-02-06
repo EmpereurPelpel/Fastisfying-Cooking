@@ -7,14 +7,13 @@ using static RythmScript;
 
 public class RythmScript : MonoBehaviour
 {
+    #region External References
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
     [SerializeField] private GameObject playButton;
-
     [SerializeField] private PauseScript pauseScript;
-    
-
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +33,6 @@ public class RythmScript : MonoBehaviour
             }
         }
     }
-
     public void playMusicNow()
     {
         playButton.SetActive(false);
@@ -51,9 +49,19 @@ public class RythmScript : MonoBehaviour
         return intervals[1].kickTime;
     }
 
+    public bool GetIsListening()
+    {
+        if (intervals.Length > 0)
+        {
+            return intervals[1].IsListening();
+        }
+        return false;
+    }
+
     [System.Serializable]
     public class Intervals
     {
+        #region External References
         [SerializeField] private float steps;
         [SerializeField] private UnityEvent trigger;
         [SerializeField] private float delay = 0;
@@ -61,7 +69,9 @@ public class RythmScript : MonoBehaviour
         [SerializeField] private bool[] sequence;
         [SerializeField] private bool isListening = false;
         [SerializeField] private ObjectSpawner spawner;
+        #endregion
 
+        #region Variables
         private int firstSequenceIndex = 0;
         private int lastSequenceIndex = 3;
 
@@ -114,13 +124,16 @@ public class RythmScript : MonoBehaviour
         };
 
         public float kickTime = 0f;
-
+        #endregion
 
         public float GetIntervalLength(float bpm)
         {
             return 60f / (bpm * steps);
         }
-
+        public bool IsListening()
+        {
+            return isListening;
+        }
 
         public void CheckForNewInterval(float interval)
         {

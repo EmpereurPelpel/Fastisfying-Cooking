@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class KnifeController : MonoBehaviour
 {
-    Animator m_animator;
+    #region External References
     [SerializeField] private Transform knifeTransform;
+    #endregion
+    #region Variables
+    Animator m_animator;
     private Vector3 startPosition;
     private Coroutine currentCutCoroutine;
     private bool isCutting = false;
+    #endregion
 
     private void Start()
     {
@@ -20,10 +24,13 @@ public class KnifeController : MonoBehaviour
         {
             if (isCutting)
             {
-                StopCutAnimation();
+                m_animator.ResetTrigger("Cut");
+                m_animator.Play("Idle", 0, 0f);
             }
             else
             {
+                m_animator.ResetTrigger("Cut");
+                m_animator.Play("Idle", 0, 0f);
                 m_animator.SetTrigger("Cut");
             }
         }
@@ -41,7 +48,6 @@ public class KnifeController : MonoBehaviour
     {
         // Déplace uniquement en X, laisse Y et Z gérés par l'Animator
         Vector3 targetPosition = new Vector3(cutPoint.x, knifeTransform.position.y, knifeTransform.position.z);
-        Debug.Log("Déplacement du couteau vers : " + targetPosition);
 
         float elapsedTime = 0;
         float moveDuration = 0.05f;
@@ -71,7 +77,6 @@ public class KnifeController : MonoBehaviour
         }
         knifeTransform.position = startPosition;
         isCutting = false;
-        Debug.Log("Couteau revenu à la position initiale : " + startPosition);
     }
 
     private void StopCutAnimation()
