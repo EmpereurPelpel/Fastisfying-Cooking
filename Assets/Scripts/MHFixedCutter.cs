@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class MHFixedCutter : MonoBehaviour
 {
-    #region Configuration
+    #region External References
     [SerializeField] private MHCutter mhCutter;
+    [SerializeField] private KnifeController knifeController;
+    [SerializeField] private RythmScript rythmScript;
     [SerializeField] private GameObject targetObject;
     [SerializeField] private int numberOfCuts;
     [SerializeField] private Vector3 cutDirection = Vector3.right;
@@ -22,17 +24,14 @@ public class MHFixedCutter : MonoBehaviour
 
     private void Start()
     {
-        /*
-        objectLength = GetObjectLengthX(targetObject);
-        Debug.Log(objectLength);
-        cutPoints = DetermineCutPoints(objectLength, numberOfCuts);*/
+        
     }
 
     private void Update()
     {
         if (!pauseScript.isPaused)
         {
-            if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.IsCutAllowed())
+            if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.IsCutAllowed() && rythmScript.GetIsListening())
             {
                 MakeCut(cutPoints[currentCutIndex]);
                 currentCutIndex++;
@@ -73,10 +72,12 @@ public class MHFixedCutter : MonoBehaviour
     {
         mhCutter.Cut(targetObject, cutPoint, cutDirection);
         spawner.ContainSlicedParts();
+        if (knifeController != null)
+        {
+            Debug.Log("cacaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            StartCoroutine(knifeController.StartCutAnimation(cutPoint));
+        }
     }
-
-    
-
     public int CurrentCutIndex => currentCutIndex;
     public int NumberOfCuts => numberOfCuts;
 

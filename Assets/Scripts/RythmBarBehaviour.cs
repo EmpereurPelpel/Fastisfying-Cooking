@@ -7,12 +7,12 @@ using static RythmScript;
 //Classe permettant de gérer la barre rythmique
 public class RythmBarBehaviour : MonoBehaviour
 {
-
+    #region External References
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private GameObject beatWriter;
     [SerializeField] private GameObject beats;
-
     [SerializeField] private PauseScript pauseScript;
+    #endregion
 
     private bool isListening = false;
     private bool timeToReset = false;

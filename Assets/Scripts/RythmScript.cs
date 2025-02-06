@@ -7,6 +7,7 @@ using static RythmScript;
 
 public class RythmScript : MonoBehaviour
 {
+    #region External References
     [SerializeField] private float bpm;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
@@ -27,7 +28,6 @@ public class RythmScript : MonoBehaviour
             }
         }
     }
-
     public void playMusicNow()
     {
         startPanel.SetActive(false);
@@ -44,12 +44,20 @@ public class RythmScript : MonoBehaviour
         return intervals[1].kickTime;
     }
 
-    /// <summary>
-    /// Ici nous initialisons une class permettant de programmer des rythmes sur la musique.
-    /// </summary>
+
+    public bool GetIsListening()
+    {
+        if (intervals.Length > 0)
+        {
+            return intervals[1].IsListening();
+        }
+        return false;
+    }
+
     [System.Serializable]
     public class Intervals
     {
+        #region External References
         [SerializeField] private float steps;
         [SerializeField] private UnityEvent trigger;
         [SerializeField] private float delay = 0;
@@ -57,7 +65,9 @@ public class RythmScript : MonoBehaviour
         [SerializeField] private bool[] sequence;
         [SerializeField] private bool isListening = false;
         [SerializeField] private ObjectSpawner spawner;
+        #endregion
 
+        #region Variables
         private int firstSequenceIndex = 0;
         private int lastSequenceIndex = 3;
 
@@ -68,7 +78,7 @@ public class RythmScript : MonoBehaviour
         private bool kickMarked = false;
         private bool hasWaited = false;
 
-        //Tableau de séquences rythmiques
+        //Tableau de sÃ©quences rythmiques
         [SerializeField]
         private bool[,] sequences = new bool[30,8] {
             //1
@@ -111,13 +121,16 @@ public class RythmScript : MonoBehaviour
         };
 
         public float kickTime = 0f;
-
+        #endregion
 
         public float GetIntervalLength(float bpm)
         {
             return 60f / (bpm * steps);
         }
-
+        public bool IsListening()
+        {
+            return isListening;
+        }
 
         /// <summary>
         /// Marque les kicks sur le tempo
@@ -127,10 +140,10 @@ public class RythmScript : MonoBehaviour
         {
             if (Mathf.FloorToInt(interval + delay) != lastInterval)
             {
-                //Routine rythmique (Pour un pattern, joue puis écoute la mesure)
+                //Routine rythmique (Pour un pattern, joue puis Ã©coute la mesure)
                 lastInterval = Mathf.FloorToInt(interval);
 
-                //si c'est un pattern et que son interval est plus grand que le précédent, on marque un kick
+                //si c'est un pattern et que son interval est plus grand que le prÃ©cÃ©dent, on marque un kick
                 if (isPattern && kick!= Mathf.FloorToInt(lastInterval / 2)%(int)steps)
                 {
                     kick = (int)Mathf.Floor(lastInterval/2) % (int)steps;
@@ -179,17 +192,17 @@ public class RythmScript : MonoBehaviour
 
         }
         /// <summary>
-        /// Initialise la prochaine séquence rythmique en la tirant au sort dans le tableau de séquences
+        /// Initialise la prochaine sÃ©quence rythmique en la tirant au sort dans le tableau de sÃ©quences
         /// </summary>
         private void InitiateSequence()
         {
-            //Tirage de la séquence à jouer
+            //Tirage de la sÃ©quence Ã  jouer
             int randomRow = UnityEngine.Random.Range(firstSequenceIndex, lastSequenceIndex);
 
             for (int i = 0; i < sequence.Length; i++)
             {
                 Debug.Log("Row : " + randomRow);
-                sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
+                sequence[i] = sequences[randomRow, i]; // Copier chaque Ã©lÃ©ment de la ligne
             }
             // Deleting old food and creating a new one for the next sequence
             
@@ -203,11 +216,11 @@ public class RythmScript : MonoBehaviour
         }
 
         /// <summary>
-        /// Augmente la difficulté en fonction du nombre de mesures jouées
+        /// Augmente la difficultÃ© en fonction du nombre de mesures jouÃ©es
         /// </summary>
         private void DifficultyManager()
         {
-            //Augmentation de la difficulté en fonction du nombre de mesures passées
+            //Augmentation de la difficultÃ© en fonction du nombre de mesures passÃ©es
             bar++;
             if (bar == 8)
             {
