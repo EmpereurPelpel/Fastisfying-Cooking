@@ -18,6 +18,8 @@ public class MHFixedCutter : MonoBehaviour
     private List<Vector3> cutPoints = new List<Vector3>();
     #endregion
 
+    [SerializeField] private PauseScript pauseScript;
+
     private void Start()
     {
         /*
@@ -28,10 +30,13 @@ public class MHFixedCutter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.IsCutAllowed())
+        if (!pauseScript.isPaused)
         {
-            MakeCut(cutPoints[currentCutIndex]);
-            currentCutIndex++;
+            if (Input.GetMouseButtonDown(0) && (currentCutIndex < numberOfCuts) && spawner.IsCutAllowed())
+            {
+                MakeCut(cutPoints[currentCutIndex]);
+                currentCutIndex++;
+            }
         }
     }
 

@@ -11,6 +11,8 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private Intervals[] intervals;
     [SerializeField] private GameObject playButton;
+
+    [SerializeField] private PauseScript pauseScript;
     
 
 
@@ -23,7 +25,7 @@ public class RythmScript : MonoBehaviour
     void Update()
     {
 
-        if (musicSource.isPlaying)
+        if (musicSource.isPlaying && !pauseScript.isPaused)
         {
             foreach (Intervals interval in intervals)
             {
@@ -66,6 +68,9 @@ public class RythmScript : MonoBehaviour
         private int kick = 0;
         private int lastInterval = -1;
         private int bar = 1;
+
+        private bool kickMarked = false;
+        private bool hasWaited = false;
 
         [SerializeField]
         private bool[,] sequences = new bool[30,8] {
@@ -110,9 +115,6 @@ public class RythmScript : MonoBehaviour
 
         public float kickTime = 0f;
 
-        private void Start()
-        {
-        }
 
         public float GetIntervalLength(float bpm)
         {
@@ -126,11 +128,21 @@ public class RythmScript : MonoBehaviour
             {
                 //Routine rythmique (Pour un pattern, joue puis écoute la mesure)
                 lastInterval = Mathf.FloorToInt(interval);
-                if ((sequence[kick] && isPattern) || !isPattern)
+
+                //si c'est un pattern et que soit l'intervalle est plus grande que la précédente 
+                if (isPattern && kick!= Mathf.FloorToInt(lastInterval / 2)%(int)steps)
                 {
+                    kick = (int)Mathf.Floor(lastInterval/2) % (int)steps;
+                    kickMarked = false;
+                }
+                if ((sequence[kick] && isPattern && !kickMarked) || !isPattern)
+                {
+                    
+
                     if (!isListening)
                     {
                         trigger.Invoke();
+                        
                     }
                     else
                     {
@@ -138,16 +150,16 @@ public class RythmScript : MonoBehaviour
                         GameObject.Find("ClickManager").GetComponent<ClickScript>().updateKickTime(kickTime);
                         
                     }
+                    kickMarked = true;
                 } 
-                if (kick < sequence.Length-1)
-                {
-                    kick++;
-                }else
+           
+                if (kick == sequence.Length-1)
                 {
                     //Changement de mesure
-                    kick = 0;
-                    if (isPattern)
+                    //kick = 0;
+                    if (isPattern && hasWaited)
                     {
+                        hasWaited = false;
                         if (isListening)
                         {
                             InitiateSequence();
@@ -155,6 +167,10 @@ public class RythmScript : MonoBehaviour
                             DifficultyManager();
                         }
                         isListening = !isListening;
+                    }
+                    else
+                    {
+                        hasWaited = true;
                     }
                 }
                 
@@ -199,7 +215,7 @@ public class RythmScript : MonoBehaviour
             {
                 firstSequenceIndex = 14;
                 lastSequenceIndex = sequences.GetLength(0);
-                Debug.Log("last index : " + lastSequenceIndex);
+                //Debug.Log("last index : " + lastSequenceIndex);
             }
             else if (bar == 64)
             {

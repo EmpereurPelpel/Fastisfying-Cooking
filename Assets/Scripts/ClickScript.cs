@@ -9,6 +9,7 @@ public class ClickScript : MonoBehaviour
 
     [SerializeField] private float scoreTimeMargin = 1f;
     [SerializeField] private float detectionTimeMargin = 2f;
+    [SerializeField] private PauseScript pauseScript;
 
     private float lastClick = 0f;
     private float kickTime = 0f;
@@ -26,31 +27,41 @@ public class ClickScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            cube.Pulse();
-            lastClick = Time.time;
+            pauseScript.PauseClicked();
         }
 
-        if (newKickToCheck)
+        if (!pauseScript.isPaused)
         {
-            kickClickDif = Mathf.Abs(kickTime - lastClick);
-            if (kickClickDif < detectionTimeMargin)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (kickClickDif < scoreTimeMargin)
-                {
-                    scoreScript.GoodClick();
-                }
-                else
-                {
-                    scoreScript.BadClick();
-                }
-                lastClick = 0;
-                newKickToCheck = false;
-            } else if (kickTime + detectionTimeMargin < Time.time)
+                cube.Pulse();
+                lastClick = Time.time;
+            }
+
+            if (newKickToCheck)
             {
-                scoreScript.MissClick();
-                newKickToCheck = false;
+                kickClickDif = Mathf.Abs(kickTime - lastClick);
+                if (kickClickDif < detectionTimeMargin)
+                {
+                    if (kickClickDif < scoreTimeMargin)
+                    {
+                        scoreScript.GoodClick();
+                    }
+                    else
+                    {
+                        scoreScript.BadClick();
+                    }
+                    lastClick = 0;
+                    newKickToCheck = false;
+                }
+                else if (kickTime + detectionTimeMargin < Time.time)
+                {
+                    scoreScript.MissClick();
+                    newKickToCheck = false;
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ public class RythmBarBehaviour : MonoBehaviour
     [SerializeField] private GameObject beatWriter;
     [SerializeField] private GameObject beats;
 
+    [SerializeField] private PauseScript pauseScript;
+
     private bool isListening = false;
     private bool timeToReset = false;
 
@@ -29,19 +31,21 @@ public class RythmBarBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        beatWriter.transform.position = new Vector3(beatWriter.transform.position.x + (musicSource.timeSamples-oldTimeSample)*beatSpeed, beatWriterInitPosition.y, beatWriterInitPosition.z);
-        oldTimeSample = musicSource.timeSamples;
+        if (!pauseScript.isPaused)
+        {
+            beatWriter.transform.position = new Vector3(beatWriter.transform.position.x + (musicSource.timeSamples - oldTimeSample) * beatSpeed * Screen.width/1000, beatWriterInitPosition.y, beatWriterInitPosition.z);
+            oldTimeSample = musicSource.timeSamples;
+        }
     }
 
 
     public void ResetBeatWriterPos()
     {
-        Debug.Log("Tac");
+
         beatWriter.transform.position = beatWriterInitPosition;
         if (timeToReset)
         {
             ResetBeats();
-            Debug.Log("Prout");
         }
 
         if (isListening)

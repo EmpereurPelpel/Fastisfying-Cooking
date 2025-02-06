@@ -20,6 +20,8 @@ public class LifeBarBehaviour : MonoBehaviour
 
     [SerializeField] private ScoreScript scoreScript;
 
+    [SerializeField] private PauseScript pauseScript;
+
     private RectTransform rectTransform;
     // Start is called before the first frame update
     private void Start()
@@ -32,7 +34,7 @@ public class LifeBarBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (music.isPlaying)
+        if (music.isPlaying && !pauseScript.isPaused)
         {
             if (fillAmount > 0f)
             {

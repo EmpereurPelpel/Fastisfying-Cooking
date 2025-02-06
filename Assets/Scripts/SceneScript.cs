@@ -8,7 +8,12 @@ public class SceneScript : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("scenecaca");
+    }
+
+    public void GoHome()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 
 }

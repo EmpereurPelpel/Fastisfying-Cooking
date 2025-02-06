@@ -10,14 +10,15 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private MHFixedCutter cutterScript; // Référence au script de découpe (attaché à "Mesh Slicer")
     [SerializeField] private RythmScript rythmScript;
 
+
     private GameObject currentObject; // Stocke l’objet instancié
     private GameObject currentContainer;
     private GameObject lastObject;
     private GameObject lastContainer;
 
-    private Vector3 startPos = new Vector3(-6, -0.25f, -1.5f);
-    private Vector3 medPos = new Vector3(0, -0.25f, -1.5f);
-    private Vector3 endPos = new Vector3(6, -0.25f, -1.5f);
+    private Vector3 startPos = new Vector3(-6, -0.25f, 0);
+    private Vector3 medPos = new Vector3(0, -0.25f, 0);
+    private Vector3 endPos = new Vector3(6, -0.25f, 0);
 
     private bool firstObjectIsSpawned = false;
     private bool objectIsMoving = false;

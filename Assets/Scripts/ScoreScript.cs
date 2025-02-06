@@ -75,11 +75,6 @@ public class ScoreScript : MonoBehaviour
 
     }
 
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene("SampleScene");
-    }
-
     public void Win()
     {
         music.Stop();
