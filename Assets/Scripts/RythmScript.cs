@@ -14,6 +14,7 @@ public class RythmScript : MonoBehaviour
     [SerializeField] private GameObject startPanel;
 
     [SerializeField] private PauseScript pauseScript;
+    #endregion
     
     // Update is called once per frame
     private void Update()
