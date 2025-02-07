@@ -202,7 +202,6 @@ public class RythmScript : MonoBehaviour
 
             for (int i = 0; i < sequence.Length; i++)
             {
-                Debug.Log("Row : " + randomRow);
                 sequence[i] = sequences[randomRow, i]; // Copier chaque élément de la ligne
             }
             // Deleting old food and creating a new one for the next sequence
@@ -236,7 +235,6 @@ public class RythmScript : MonoBehaviour
             {
                 firstSequenceIndex = 14;
                 lastSequenceIndex = sequences.GetLength(0);
-                //Debug.Log("last index : " + lastSequenceIndex);
             }
             else if (bar == 64)
             {

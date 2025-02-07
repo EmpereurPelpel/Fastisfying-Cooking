@@ -8,7 +8,7 @@ public class SceneScript : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("scenecaca");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void GoHome()

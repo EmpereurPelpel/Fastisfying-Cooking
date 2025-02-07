@@ -74,7 +74,6 @@ public class MHFixedCutter : MonoBehaviour
         spawner.ContainSlicedParts();
         if (knifeController != null)
         {
-            Debug.Log("cacaaaaaaaaaaaaaaaaaaaaaaaaaa");
             StartCoroutine(knifeController.StartCutAnimation(cutPoint));
         }
     }

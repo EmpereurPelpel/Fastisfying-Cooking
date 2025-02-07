@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.5254902, b: 0.7568628, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -523,6 +523,38 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 862206206}
   m_SourcePrefab: {fileID: 100100000, guid: 12ad42c6390a07b40be42549656ae24c, type: 3}
+--- !u!1 &153315796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153315797}
+  m_Layer: 0
+  m_Name: Knife Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &153315797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153315796}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.88, y: 0.7642601, z: -0.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1181278736}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &190319622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9e9fa0746443f0c4dac2765b0f98e726, type: 3}
@@ -3723,11 +3755,130 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e9fa0746443f0c4dac2765b0f98e726, type: 3}
+--- !u!1 &1181278735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+  m_PrefabInstance: {fileID: 1225000178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1181278736 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+  m_PrefabInstance: {fileID: 1225000178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1181278737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181278735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84af7e015a2d40346a84ba8dc2e3c0d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knifeTransform: {fileID: 153315797}
+--- !u!95 &1181278738
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181278735}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb9d8e32176c33344b27ea4a89e9e814, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1187435406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a869c180c1c2881418c2c629a7d78ff1, type: 3}
   m_PrefabInstance: {fileID: 1344186337}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1225000178
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 153315797}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.30574
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5778087
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.4075992
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5778087
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.4075992
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 70.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      propertyPath: m_Name
+      value: cooking-knife-chopping
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1181278738}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1181278737}
+  m_SourcePrefab: {fileID: 100100000, guid: 7ee89dcc65944ae4ca24c1230f18d436, type: 3}
 --- !u!4 &1238793382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 449b1421121453e4fbc87202b0cc5cee, type: 3}
@@ -3784,6 +3935,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mhCutter: {fileID: 1280408509}
+  knifeController: {fileID: 1181278737}
+  rythmScript: {fileID: 1810779492}
   targetObject: {fileID: 8310042936511685627, guid: 0e6375e5d811a7b4fa1a668331ab6c09, type: 3}
   numberOfCuts: 5
   cutDirection: {x: 1, y: 0, z: 0}
@@ -7892,3 +8045,4 @@ SceneRoots:
   - {fileID: 815961560}
   - {fileID: 711950534}
   - {fileID: 755675400}
+  - {fileID: 153315797}
