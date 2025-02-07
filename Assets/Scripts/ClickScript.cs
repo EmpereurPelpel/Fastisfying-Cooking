@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class ClickScript : MonoBehaviour
 {
-
+    #region External References
     [SerializeField] private CubeBehaviour cube;
-
     [SerializeField] private float scoreTimeMargin = 1f;
     [SerializeField] private float detectionTimeMargin = 2f;
     [SerializeField] private PauseScript pauseScript;
-
+    [SerializeField] private ScoreScript scoreScript;
+    #endregion
+    #region Variables
     private float lastClick = 0f;
     private float kickTime = 0f;
     private float kickClickDif = 0f;
     private bool newKickToCheck = false;
-
-    [SerializeField] private ScoreScript scoreScript;
+    #endregion
 
     // Update is called once per frame
     private void Update()

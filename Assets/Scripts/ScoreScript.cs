@@ -8,6 +8,7 @@ using UnityEngine.UI;
 //Gère le score
 public class ScoreScript : MonoBehaviour
 {
+    #region External References
     [SerializeField] private TextMeshProUGUI score;
     [SerializeField] private TextMeshProUGUI mult;
     [SerializeField] private TextMeshProUGUI textFeedback;
@@ -17,11 +18,14 @@ public class ScoreScript : MonoBehaviour
     [SerializeField] private GameObject winPanel;
 
     [SerializeField] private AudioSource music;
+    #endregion
+    #region Variables
     private int scoreCount = 0;
     private int multCount = 1;
     private int goodStreak = 0;
     private int multStep = 4;
     private int scoreStep = 100;
+    #endregion
 
     public void GoodClick()
     {

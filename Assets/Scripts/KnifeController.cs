@@ -10,8 +10,6 @@ public class KnifeController : MonoBehaviour
     Animator m_animator;
     private Vector3 startPosition;
     private Coroutine currentCutCoroutine;
-    private bool isCutting = false;
-    private bool isDoubleCutting = false;
     #endregion
 
     private void Start()
@@ -24,35 +22,15 @@ public class KnifeController : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Clic");
-            if (isCutting)
-            {
-                Debug.Log("cliciscutting"+ isCutting);
-                /*if (isDoubleCutting)
-                {
-                    StopCutAnimation();
-                }*/
-                m_animator.ResetTrigger("Cut");
-                m_animator.Play("Idle", 0, 0f);
-            }
-            else
-            {
-                Debug.Log("clic pas iscutting"+ isCutting);
-                m_animator.ResetTrigger("Cut");
-                m_animator.Play("Idle", 0, 0f);
-                m_animator.SetTrigger("Cut");
-            }
+            m_animator.ResetTrigger("Cut");
+            m_animator.Play("Idle", 0, 0f);
+            m_animator.SetTrigger("Cut");
         }
     }
 
     public IEnumerator StartCutAnimation(Vector3 cutPoint)
     {
         m_animator.SetTrigger("Cut");
-        if (isCutting && !isDoubleCutting)
-        {
-            isDoubleCutting = true;
-        }
-        isCutting = true;
         if (currentCutCoroutine != null)
         {
             StopCoroutine(currentCutCoroutine);
@@ -79,10 +57,6 @@ public class KnifeController : MonoBehaviour
         knifeTransform.position = targetPosition;
         // Pause pendant la coupe
         yield return new WaitForSeconds(0.4f);
-        /*if (isDoubleCutting)
-        {
-            m_animator.SetTrigger("Cut");
-        }*/
 
         // Retour à la position de départ
         elapsedTime = 0;
@@ -94,18 +68,5 @@ public class KnifeController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        //knifeTransform.position = startPosition;
-        isCutting = false;
-        isDoubleCutting = false;
-    }
-
-    private void StopCutAnimation()
-    {
-        if (isCutting)
-        {
-            StopCoroutine(currentCutCoroutine);
-        }
-        m_animator.ResetTrigger("Cut");
-        m_animator.Play("Idle", 0, 0f);
     }
 }

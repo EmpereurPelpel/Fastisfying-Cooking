@@ -13,7 +13,7 @@ public class RythmBarBehaviour : MonoBehaviour
     [SerializeField] private GameObject beats;
     [SerializeField] private PauseScript pauseScript;
     #endregion
-
+    #region Variables
     private bool isListening = false;
     private bool timeToReset = false;
 
@@ -23,6 +23,7 @@ public class RythmBarBehaviour : MonoBehaviour
 
     [SerializeField]
     private float beatSpeed = 50;
+    #endregion
     // Start is called before the first frame update
     private void Start()
     {

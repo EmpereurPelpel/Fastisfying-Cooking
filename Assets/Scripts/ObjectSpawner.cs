@@ -5,12 +5,12 @@ using static RythmScript;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    [Header("Prefab et Cutter")]
+    #region External References
     [SerializeField] private GameObject[] objectPrefabs; // Prefab à instancier
     [SerializeField] private MHFixedCutter cutterScript; // Référence au script de découpe (attaché à "Mesh Slicer")
     [SerializeField] private RythmScript rythmScript;
-
-
+    #endregion
+    #region Variables
     private GameObject currentObject; // Stocke l’objet instancié
     private GameObject currentContainer;
     private GameObject lastObject;
@@ -22,6 +22,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private bool firstObjectIsSpawned = false;
     private bool objectIsMoving = false;
+    #endregion
 
     private void Start()
     {
@@ -77,7 +78,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
-            yield return null; // Attendre la prochaine frame
+            yield return null;
         }
         objectIsMoving = false;
         obj.transform.position = targetPosition;
@@ -92,7 +93,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
-            yield return null; // Attendre la prochaine frame
+            yield return null;
         }
 
         obj.transform.position = targetPosition; // S'assurer qu'il atteint bien la position cible
@@ -110,7 +111,6 @@ public class ObjectSpawner : MonoBehaviour
         {
             foreach (GameObject part in slicedParts)
             {
-                Debug.Log(part.name);
                 part.transform.parent=currentContainer.transform;
             }
         }

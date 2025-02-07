@@ -7,18 +7,19 @@ using UnityEngine.UI;
 //Classe gérant le menu pause
 public class PauseScript : MonoBehaviour
 {
+    #region External References
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject pauseGeneral;
     [SerializeField] private GameObject pauseSound;
-
     [SerializeField] private AudioSource music;
-
     [SerializeField] AudioMixer audioMixerGroup;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider fxSlider;
-
+    #endregion
+    #region Variables
     public bool isPaused = false;
     private bool musicWasPlaying = false;
+    #endregion
     // Start is called before the first frame update
     private void Start()
     {
